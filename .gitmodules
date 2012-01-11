@@ -1,0 +1,6 @@
+[submodule "myqee-core"]
+	path = myqee-core
+	url = http://github.com/breath-co2/myqee-core.git
+[submodule "core"]
+	path = core
+	url = http://github.com/breath-co2/myqee-core.git
