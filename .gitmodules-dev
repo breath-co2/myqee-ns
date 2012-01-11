@@ -1,0 +1,6 @@
+[submodule "core"]
+	path = core
+	url = git@github.com:breath-co2/myqee-core.git
+[submodule "libraries/myqee/develop"]
+	path = libraries/myqee/develop
+	url = git@github.com:breath-co2/myqee-lib-develop.git
