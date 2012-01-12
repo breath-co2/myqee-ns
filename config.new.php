@@ -23,7 +23,7 @@ $config['core']['libraries'] = array(
         'myqee/develop',
     ),
 
-    // 后台加载的类库
+    // 后台模式时加载的类库
     'admin'    => array(
         'myqee/administration',
     ),
@@ -51,21 +51,10 @@ $config['core']['admin_mode_base_url'] = array(
 );
 
 /**
- * 读取配置时是否获取***.debug.config.php文件的配置
+ * 开启在线调试模式的密码，支持多个，清除密码则关闭在线调试功能
  *
- * 通常本地开发的测试服务器和正式服务器的环境配置都是不相同的，此开关可帮助你在本地读取补充配置
- * 例如设置true后：
- * database.config.php
- * 可被
- * database.debug.config.php
- * 里的数据覆盖
- *
- * @var boolean
- */
-$config['core']['debug_config'] = true;
-
-/**
- * 开启调试模式的密码，支持多个
+ * 在线调试地址为根目录下 /opendebugger
+ * 例如 http://www.mysite.com/opendebugger
  *
  * @var array
  */
@@ -97,7 +86,10 @@ $config['core']['base_url'] = null;
 $config['core']['error_reporting'] = 7;
 
 /**
- * 服务器默认文件夹文件
+ * 服务器文件夹默认文件
+ *
+ * 通常为 index.html 或 index.htm 等，只需第一个即可
+ *
  * @var string
  */
 $config['core']['server_index_page'] = 'index.html';
@@ -111,7 +103,7 @@ $config['core']['server_index_page'] = 'index.html';
 $config['core']['timezone'] = 'PRC';
 
 /**
- * 语言包
+ * 默认语言包
  *
  * @var string
  */
@@ -128,7 +120,7 @@ $config['core']['online_install_apps'] = true;
  * WEB服务的服务器列表，留空则禁用同步功能（比如只有1台web服务器时请禁用此功能）
  *
  * 配置服务器后，可以实现服务器上data目录的文件同步功能，同步逻辑通过本系统完成，如果已经配置了data目录的sync同步机制，只需要配置1个主服务器即可
- * 可通过 Core::sync_exec($function,$param_1,$param_2,...); 实现在所有服务器上各自运行一遍$function
+ * 可通过 \Sync::exec($function,$param_1,$param_2,...); 实现在所有服务器上各自运行一遍$function
  *
  *	 //可以是内网IP，确保服务器之间可以相互访问到，端口请确保指定到apache/IIS/nginx等端口上
  *   array(
@@ -146,23 +138,41 @@ $config['core']['web_server_list'] = array(
 /**
  * 调试环境打开关键字
  *
- * 可在php.ini中加入：
+ * 例如设置为 myqee.debug 则在php.ini中加入：
  *
- *   [MyQEE]
  *   myqee.debug = On
  *
- * 即可设置为默认打开调试模式，建议本地开发时设置，生产环境不设置php.ini即可
+ * 例如设置为 mytest.abc 则在php.ini中加入：
+ *
+ *   mytest.abc = On
+ *
+ * 即可设置为默认打开调试模式，系统会自动加载$config['core']['libraries']['debug']中类库，且处于其它类库之上的优先级，建议本地开发时设置，生产环境不设置php.ini即可
  *
  * @var string
  */
 $config['core']['local_debug_cfg'] = 'myqee.debug';
-
 
 /**
  * 默认数据库配置
  *
  * @var array
  */
-$config['database']['default'] = array(
-
+$config['database']['default'] = array
+(
+    'type'       => 'mysqli',                //表示用mysqli类库连接，系统默认支持 mysql|mysqli|mango ，需要别的可自行扩展
+    'connection' => array(
+            'hostname'   => '127.0.0.1',     //服务器IP或域名
+            'database'   => 'test',          //库名称
+            'username'   => 'root',          //数据库用户
+            'password'   => '123456',        //密码
+    ),
+    'table_prefix' => '',                    //表前缀，比如:text_
+    'charset'      => 'utf8',                //表编码
+    'caching'      => false,                 //是否使用同一进程SQL查询缓存（可防止同一SQL语句反复查询）
 );
+
+
+
+
+
+
