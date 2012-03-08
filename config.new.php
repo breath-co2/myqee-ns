@@ -147,6 +147,24 @@ $config['core']['debug_open_password'] = array
 
 
 /**
+ * 读取配置时是否获取***.debug.config.php文件的配置
+ *
+ * !! 本地开发建议开启，生产环境请务必关闭
+ *
+ * 用途如下：
+ * 通常本地开发的测试服务器和正式服务器的环境配置都是不相同的（比如数据IP，用户名，密码等等），此开关可帮助你在本地读取补充配置
+ * 例如设置true后：
+ * database.config.php
+ * 可被
+ * database.debug.config.php
+ * 里的数据覆盖，而生成环境上为关闭状态，会忽略 *.debug.config.php 文件
+ *
+ * @var boolean
+ */
+$config['debug_config'] = true;
+
+
+/**
  * 错误等级
  *
  * @var int
@@ -210,7 +228,16 @@ $config['core']['online_install_apps'] = true;
  *
  * @var string
  */
-$config['core']['local_debug_cfg'] = 'm1yqee.debug';
+$config['core']['local_debug_cfg'] = 'myqee.debug';
+
+/**
+ * 页面后缀，必须小写字母
+ *
+ * 例如设置成.html 可以用 http://yourhost/test.html 这样的形式来访问
+ *
+ * @var string
+ */
+$config['core']['url_suffix'] = '.html';
 
 
 /**
