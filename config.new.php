@@ -46,7 +46,7 @@ $config['projects'] = array
  *
  * @var array
  */
-$config['apps_url'] = array
+$config['core']['apps_url'] = array
 (
 //    'bigdir/appdir' => 'http://test.app.abc.com/',
 );
@@ -136,7 +136,9 @@ $config['core']['charset'] = 'utf-8';
 
 
 /**
- * 开启调试模式的密码，支持多个,key为用户名，value为密码，清空则表示禁用开启debug模式
+ * 开启调试模式的密码，支持多个
+ *
+ * key为用户名，value为密码，清空则表示禁用开启debug模式
  *
  * @var array
  */
@@ -161,7 +163,7 @@ $config['core']['debug_open_password'] = array
  *
  * @var boolean
  */
-$config['debug_config'] = true;
+$config['core']['debug_config'] = true;
 
 
 /**
@@ -202,7 +204,84 @@ $config['core']['lang'] = 'zh-cn';
 
 
 /**
- * 是否允许在线安装(及删除)应用
+ * WEB服务的服务器列表，留空则禁用同步功能（比如只有1台web服务器时请禁用此功能）
+ *
+ * 可通过 HttpHost::sync_exec('uri',$param_1,$param_2,...); 实现在所有服务器上各自运行一遍URL为uri的请求（执行的控制器在controller/[system]/目录下）
+ *
+ * !! 另外，由于内部请求会对请求时效进行验证，所以请务必保持各个服务器之间时间差小于10分钟
+ *
+ *	 //可以是内网IP，确保服务器之间可以相互访问到，端口请确保指定到apache/IIS/nginx等端口上
+ *   array(
+ *       'default' => array
+ *       (
+ *           '192.168.1.2:81',      //第一个为主服
+ *           '192.168.1.1',         //80端口可省略:80
+ *           '192.168.1.3:81',
+ *       ),
+ *   )
+ *
+ * @var array
+ */
+$config['core']['web_server_list'] = array
+(
+    // 默认服务器群
+    'default' => array
+    (
+        //第一个为主服
+    ),
+);
+
+
+/**
+ * 系统内部请求通讯密钥
+ *
+ * 至少10位字符，内容不限
+ * 留空时系统将采用config配置中所有core及database的序列化字符串作为key。如果各个服务器的配置都相同，推荐留空；若各个服务器之间的core或database配置存在差异则不能留空，否则通讯验证将无法通过，此时必须设置system_exec_key才可以保证通讯验证通过
+ *
+ * @var string
+ */
+$config['core']['system_exec_key'] = '';
+
+
+/**
+ * 系统内部调用允许的IP列表，星号“*”表示匹配任意
+ *
+ * 127.0.0.1为永久允许IP，所以不需要加
+ * 当请求的IP和服务器IP相同时（即服务器内部调用自己），即便没有在此列表时也会允许通过验证
+ *
+ * 请注意通常服务器都有内网IP和外网IP，请务必都加上，以免相互请求时无法通过验证
+ *
+ *    array
+ *    (
+ *        '192.168.1.*',
+ *        '10.0.0.1',
+ *        '10.0.0.2',
+ *    )
+ */
+$config['core']['system_exec_allow_ip'] = array
+(
+
+);
+
+
+/**
+ * 多服务器文件同步模式
+ *
+ * 可选参数：rsync|system|none
+ * rsync  : 可靠性比较好。但需要在服务器上配置好rsync，将主服data,wwwroot目录同步到其它服上。此种模式下，系统在执行文件操作时，不管轮询到哪台机器上，都将只调用主服务器进行文件操作，然后由rsync来实现文件同步
+ * system : 通过本系统内置的同步模式进行同步，无须额外配置。在执行文件操作时，将通过内部系统调用所有服务器进行操作，可靠性不及rsync
+ * none   : 不做同步处理
+ *
+ * 当 $config['core']['web_server_list'] 设置存在多服务器时，调用File类库保存文件时采取的多服务器同步模式
+ * 当单服务器模式时，本参数无效
+ *
+ * @var string
+ */
+$config['core']['file_sync_mode'] = 'system';
+
+
+/**
+ * 是否允许在线安装(删除)应用
  *
  * @var boolean
  */
