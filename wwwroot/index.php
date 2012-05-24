@@ -43,7 +43,7 @@ $load_protection = function()
 
     $msg = sprintf($msg_tpl, $time, $host, $load, $argv_or_uri);
 
-    $log_dir = dirname(__FILE__).'/../data/logs/';
+    $log_dir = __DIR__.'/../data/logs/';
     if ( @is_dir($log_dir) )
     {
         // 写入日志
@@ -56,14 +56,14 @@ $load_protection = function()
     header("Cache-Control: private");
     header("Pragma: no-cache");
 
-    exit( file_get_contents( dirname(__FILE__).'/errors/server_overload.html') );
+    exit( file_get_contents( __DIR__.'/errors/server_overload.html') );
 };
 $load_protection();
 unset($load_protection);
 
 
 // 加载系统
-include dirname(__FILE__).'/../core/bootstrap.php';
+include __DIR__.'/../core/bootstrap.php';
 
 // 执行bootstrap
 Bootstrap::setup();

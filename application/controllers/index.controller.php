@@ -1,7 +1,5 @@
 <?php
-namespace Controller;
-
-class Index extends \Core\Controller
+class Controller_Index extends Controller
 {
 
     /**

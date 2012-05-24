@@ -1,2 +1,2 @@
 <?php
-include dirname(__FILE__).'/wwwroot/index.php';
+include __DIR__.'/wwwroot/index.php';
