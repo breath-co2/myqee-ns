@@ -46,7 +46,7 @@ $config['projects'] = array
  *
  * @var array
  */
-$config['core']['apps_url'] = array
+$config['apps_url'] = array
 (
 //    'bigdir/appdir' => 'http://test.app.abc.com/',
 );
@@ -59,9 +59,9 @@ $config['core']['apps_url'] = array
  *
  * @var array
  */
-$config['core']['libraries'] = array
+$config['libraries'] = array
 (
-    // 系统在初始化时就会自动加载的类库，必须是bigDir/subDir形式，例如: mysite/test 表示加载 libraries/mysite/test/ 目录的类库，下同
+    // 系统在初始化时就会自动加载的类库，必须是com.bigdir.subdir形式(其中com.为固定字符串前缀)，例如: com.mysite.test 表示加载 libraries/mysite/test/ 目录的类库，下同
     'autoload' => array
     (
 
@@ -76,19 +76,19 @@ $config['core']['libraries'] = array
     // APP模式下会加载的类库
     'app'  => array
     (
-        'myqee/for_app',
+        'com.myqee.for_app',
     ),
 
     // 调试环境下会加载的类库
     'debug' => array
     (
-        'myqee/develop',
+        'com.myqee.develop',
     ),
 
     // 后台模式下会加载的类库
     'admin' => array
     (
-        'myqee/administration',
+        'com.myqee.administration',
     ),
 );
 
@@ -98,7 +98,7 @@ $config['core']['libraries'] = array
  *
  * @var string
  */
-$config['core']['url']['site'] = '/';
+$config['url']['site'] = 'http://192.168.1.103/v3/';
 
 
 /**
@@ -106,7 +106,7 @@ $config['core']['url']['site'] = '/';
  *
  * @var string
  */
-$config['core']['url']['admin'] = '/admin/';
+$config['url']['admin'] = 'http://192.168.1.103/v3/admin/';
 
 
 /**
@@ -116,7 +116,7 @@ $config['core']['url']['admin'] = '/admin/';
  *
  * @var string
  */
-$config['core']['url']['apps'] = '/apps/';
+$config['url']['apps'] = '/apps/';
 
 
 /**
@@ -124,7 +124,7 @@ $config['core']['url']['apps'] = '/apps/';
  *
  * @var string
  */
-$config['core']['url']['statics'] = '/statics/';
+$config['url']['statics'] = '/statics/';
 
 
 /**
@@ -132,7 +132,7 @@ $config['core']['url']['statics'] = '/statics/';
  *
  * @var string
  */
-$config['core']['charset'] = 'utf-8';
+$config['charset'] = 'utf-8';
 
 
 /**
@@ -142,7 +142,7 @@ $config['core']['charset'] = 'utf-8';
  *
  * @var array
  */
-$config['core']['debug_open_password'] = array
+$config['debug_open_password'] = array
 (
     'myqee' => '123456',
 );
@@ -163,7 +163,7 @@ $config['core']['debug_open_password'] = array
  *
  * @var boolean
  */
-$config['core']['debug_config'] = true;
+$config['debug_config'] = true;
 
 
 /**
@@ -171,7 +171,7 @@ $config['core']['debug_config'] = true;
  *
  * @var int
  */
-$config['core']['error_reporting'] = 7;
+$config['error_reporting'] = 7;
 
 
 /**
@@ -180,7 +180,7 @@ $config['core']['error_reporting'] = 7;
  * @var string
  * @example index.html
  */
-$config['core']['server_index_page'] = 'index.html';
+$config['server_index_page'] = 'index.html';
 
 
 /**
@@ -191,7 +191,7 @@ $config['core']['server_index_page'] = 'index.html';
  * @var string
  * @see http://www.php.net/manual/en/timezones.php
  */
-$config['core']['timezone'] = 'PRC';
+$config['timezone'] = 'PRC';
 
 
 /**
@@ -200,13 +200,13 @@ $config['core']['timezone'] = 'PRC';
  * @var string
  * @example zh-cn
  */
-$config['core']['lang'] = 'zh-cn';
+$config['lang'] = 'zh-cn';
 
 
 /**
  * WEB服务的服务器列表，留空则禁用同步功能（比如只有1台web服务器时请禁用此功能）
  *
- * 可通过 HttpHost::sync_exec('uri',$param_1,$param_2,...); 实现在所有服务器上各自运行一遍URL为uri的请求（执行的控制器在controller/[system]/目录下）
+ * 可通过 HttpCall::sync_exec('uri',$param_1,$param_2,...); 实现在所有服务器上各自运行一遍URL为uri的请求（执行的控制器在controller/[system]/目录下）
  *
  * !! 另外，由于内部请求会对请求时效进行验证，所以请务必保持各个服务器之间时间差小于10分钟
  *
@@ -222,7 +222,7 @@ $config['core']['lang'] = 'zh-cn';
  *
  * @var array
  */
-$config['core']['web_server_list'] = array
+$config['web_server_list'] = array
 (
     // 默认服务器群
     'default' => array
@@ -240,7 +240,7 @@ $config['core']['web_server_list'] = array
  *
  * @var string
  */
-$config['core']['system_exec_key'] = '';
+$config['system_exec_key'] = '';
 
 
 /**
@@ -258,7 +258,7 @@ $config['core']['system_exec_key'] = '';
  *        '10.0.0.2',
  *    )
  */
-$config['core']['system_exec_allow_ip'] = array
+$config['system_exec_allow_ip'] = array
 (
 
 );
@@ -272,12 +272,12 @@ $config['core']['system_exec_allow_ip'] = array
  * system : 通过本系统内置的同步模式进行同步，无须额外配置。在执行文件操作时，将通过内部系统调用所有服务器进行操作，可靠性不及rsync
  * none   : 不做同步处理
  *
- * 当 $config['core']['web_server_list'] 设置存在多服务器时，调用File类库保存文件时采取的多服务器同步模式
+ * 当 $config['web_server_list'] 设置存在多服务器时，调用File类库保存文件时采取的多服务器同步模式
  * 当单服务器模式时，本参数无效
  *
  * @var string
  */
-$config['core']['file_sync_mode'] = 'system';
+$config['file_sync_mode'] = 'system';
 
 
 /**
@@ -285,7 +285,21 @@ $config['core']['file_sync_mode'] = 'system';
  *
  * @var boolean
  */
-$config['core']['online_install_apps'] = true;
+$config['online_install_apps'] = true;
+
+
+/**
+ * APP账号
+ *
+ *     array
+ *     (
+ *         'user',   //账号
+ *         'sn',     //序列号
+ *     );
+ *
+ * @var array
+ */
+$config['app_user'] = array('myqee','**************');
 
 
 /**
@@ -303,11 +317,11 @@ $config['core']['online_install_apps'] = true;
  *   [MyQEE]
  *   mytest.abc = On
  *
- * 即可设置为默认打开调试模式，系统会自动加载$config['core']['libraries']['debug']中类库，且处于其它类库之上的优先级
+ * 即可设置为默认打开调试模式，系统会自动加载$config['libraries']['debug']中类库，且处于其它类库之上的优先级
  *
  * @var string
  */
-$config['core']['local_debug_cfg'] = 'myqee.debug';
+$config['local_debug_cfg'] = 'myqee.debug';
 
 /**
  * 页面后缀，必须小写字母
@@ -316,7 +330,20 @@ $config['core']['local_debug_cfg'] = 'myqee.debug';
  *
  * @var string
  */
-$config['core']['url_suffix'] = '.html';
+$config['url_suffix'] = '.html';
+
+
+/**
+ * 系统日志设置
+ *
+ * @var array
+ */
+$config['log'] = array
+(
+    'use'    => 1,           //是否记录日志
+    'file'   => 'Y/m/d/',    //文件格式
+    'format' => ':time - :host::port - :url - :msg',    //内容格式化
+);
 
 
 /**
@@ -331,7 +358,7 @@ $config['database']['default'] = array
     'connection' => array
     (
         'hostname'   => '127.0.0.1',
-        'database'   => 'test',
+        'database'   => 'myqee',
         'username'   => 'root',
         'password'   => '123456',
         'persistent' => false,
