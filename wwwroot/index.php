@@ -2,13 +2,12 @@
 /**
  * 服务器负载保护函数，本方法目前不支持window系统
  *
+ * 最大负载不要超过3*N核，例如有16核（含8核超线程）则 16*3=48
+ *
  * @see http://php.net/manual/en/function.sys-getloadavg.php
  */
-$load_protection = function()
+$load_protection = function($max_load_avg=24)
 {
-    // 最大负载不要超过3*N核，例如有16核（含8核超线程）则 16*3=48
-    $max_load_avg = 48;
-
     if ( !function_exists('sys_getloadavg') )
     {
         return false;
@@ -58,6 +57,8 @@ $load_protection = function()
 
     exit( file_get_contents( __DIR__.'/errors/server_overload.html') );
 };
+
+
 $load_protection();
 unset($load_protection);
 
