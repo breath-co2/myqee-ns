@@ -163,7 +163,7 @@ $config['debug_open_password'] = array
  *
  * @var boolean
  */
-$config['debug_config'] = true;
+$config['debug_config'] = false;
 
 
 /**
