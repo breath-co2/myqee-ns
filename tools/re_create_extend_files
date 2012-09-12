@@ -14,7 +14,7 @@ remove_dir(DIR_SYSTEM .'core/extend_files/');
 paste_files('core', 'classes'     , DIR_SYSTEM .'core/classes/');
 paste_files('core', 'orm'         , DIR_SYSTEM .'core/orm/');
 paste_files('core', 'controllers' , DIR_SYSTEM .'core/controllers/');
-paste_files('core', 'model'       , DIR_SYSTEM .'core/model/');
+paste_files('core', 'models'      , DIR_SYSTEM .'core/models/');
 
 foreach ( glob( DIR_SYSTEM.'libraries/*', GLOB_NOSORT )  as $file )
 {
@@ -37,7 +37,7 @@ foreach ( glob( DIR_SYSTEM.'libraries/*', GLOB_NOSORT )  as $file )
                 paste_files( $lib_path, 'classes'     , DIR_SYSTEM .$lib_path.'/classes/');
                 paste_files( $lib_path, 'orm'         , DIR_SYSTEM .$lib_path.'/orm/');
                 paste_files( $lib_path, 'controllers' , DIR_SYSTEM .$lib_path.'/controllers/');
-                paste_files( $lib_path, 'model'       , DIR_SYSTEM .$lib_path.'/model/');
+                paste_files( $lib_path, 'models'      , DIR_SYSTEM .$lib_path.'/models/');
             }
         }
     }
@@ -64,11 +64,11 @@ function paste_files($lib,$dir,$class_dir,$p_dir='')
             'orm'         => '.orm'.EXT,
             'classes'     => '.class'.EXT,
             'controllers' => '.controller'.EXT,
-            'model'       => '.model'.EXT,
+            'models'      => '.model'.EXT,
         );
         if (!isset($dirArr[$dir]))
         {
-            echo 'dir '.$dir.' not defined';
+            echo 'dir '.$dir.' not defined'."\n";
             return;
         }
 

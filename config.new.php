@@ -347,6 +347,16 @@ $config['log'] = array
 
 
 /**
+ * 此参数在部分安全要求比较高,不可执行eval的服务器上可设置成true，默认用false即可
+ *
+ * 关于本参数的详细说明，请查看相关手册
+ *
+ * @var boolean
+ */
+$config['disable_eval'] = false;
+
+
+/**
  * 默认数据库配置
  *
  * @var array
