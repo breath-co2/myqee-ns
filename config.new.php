@@ -184,6 +184,16 @@ $config['server_index_page'] = 'index.html';
 
 
 /**
+ * 服务器开启HTTPS的关键字，通常是HTTPS，无需修改
+ *
+ * 特殊情况下可能需要修改，比如通过nginx的443端口代理apache的80端口，浏览器里https://...页面，而在apache中实际的是http://...页面，可以传 $_SERVER["HTTP_HTTPS"] = 'on' 参数告诉服务器是https请求，这样在Core::url()参数中输出的URL将做相应处理
+ *
+ * @var string
+ */
+$config['server_httpson_key'] = 'HTTPS';
+
+
+/**
  * 默认时区
  *
  * PRC = 中国标准时区
@@ -354,7 +364,6 @@ $config['log'] = array
  * @var boolean
  */
 $config['disable_eval'] = false;
-
 
 /**
  * 默认数据库配置
