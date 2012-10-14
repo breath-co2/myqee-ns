@@ -94,11 +94,19 @@ $config['libraries'] = array
 
 
 /**
- * 网站根目录，可以http:// 或 https:// 或 / 开头，必须/结尾
+ * 网站部署的根目录，/开始，/结尾
  *
  * @var string
  */
-$config['url']['site'] = 'http://192.168.1.103/v3/';
+$config['root_path'] = '/';
+
+
+/**
+ * 网站根目录，可以http:// 或 https://，/结尾
+ *
+ * @var string
+ */
+$config['url']['site'] = '/';
 
 
 /**
@@ -106,7 +114,7 @@ $config['url']['site'] = 'http://192.168.1.103/v3/';
  *
  * @var string
  */
-$config['url']['admin'] = 'http://192.168.1.103/v3/admin/';
+$config['url']['admin'] = '/admin/';
 
 
 /**
